@@ -1,6 +1,7 @@
 __author__ = 'Hernan Y.Ke'
 from lxml import html
 import requests
+import time
 
 
 
@@ -22,8 +23,9 @@ class Crawler:
             current_links =[]
             for link in self.depth_links[self.current_depth]:
                 current_app = self.get_app_from_link(link)
-                current_links.extend(current_links)
-                self.apps.append(app)
+                current_links.extend(current_app.links)
+                self.apps.append(current_app)
+                time.sleep(5)
             self.current_depth+=1
             self.depth_links.append(current_links)
         return
@@ -56,11 +58,11 @@ class App:
         self.links = links
 
     def __str__(self):
-        return "name: " + self.name
+        return "name: " + self.name + self.developer + self.price
 
 
 
-c = Crawler('https://itunes.apple.com/us/app/candy-crush-saga/id553834731', 0)
+c = Crawler('https://itunes.apple.com/us/app/candy-crush-saga/id553834731', 2)
 
 c.crawl()
 
